@@ -36,14 +36,14 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        <li class="dropdown">
+                        <li class="dropdown {{ Request::is( 'spotify-*') ? 'active' : '' }}">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 Spotify <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ route('spotify-artists.index') }}">Artists</a></li>
-                                <li><a href="">Playlists</a></li>
-                                <li><a href="{{ route('spotify-auth') }}">Authentication</a></li>
+                                <li {{ Request::is( 'spotify-artists') || Request::is( 'spotify-artists/*' ) ? 'class=active' : '' }}><a href="{{ route('spotify-artists.index') }}">Artists</a></li>
+                                <li {{ Request::is( 'spotify-playlists') || Request::is( 'spotify-playlists/*' ) ? 'class=active' : '' }}><a href="">Playlists</a></li>
+                                <li {{ Request::is( 'spotify-auth') || Request::is( 'spotify-auth/*' ) ? 'class=active' : '' }}><a href="{{ route('spotify-auth') }}">Authentication</a></li>
                             </ul>
                         </li>
                     </ul>
