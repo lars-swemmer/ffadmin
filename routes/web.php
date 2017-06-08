@@ -21,3 +21,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/spotify-auth', 'SpotifyAuthController@index')->name('spotify-auth');
 Route::get('/spotify-callback', 'SpotifyAuthController@callback')->name('spotify-callback');
+
+// SpotifyArtist resource
+Route::resource('spotify-artists', 'SpotifyArtistController', ['except' => ['edit', 'update']]);

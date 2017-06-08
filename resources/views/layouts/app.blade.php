@@ -41,7 +41,7 @@
                                 Spotify <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="">Artists</a></li>
+                                <li><a href="{{ route('spotify-artists.index') }}">Artists</a></li>
                                 <li><a href="">Playlists</a></li>
                                 <li><a href="{{ route('spotify-auth') }}">Authentication</a></li>
                             </ul>
