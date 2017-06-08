@@ -26,4 +26,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Get the spotify_auth record associated with the user.
+     */
+    public function spotifyAuth()
+    {
+        return $this->hasOne('App\SpotifyAuth');
+    }
 }
