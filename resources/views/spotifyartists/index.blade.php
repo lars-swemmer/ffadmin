@@ -5,7 +5,12 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Spotify Artists</div>
+                <div class="panel-heading">
+                    Spotify Artists
+                    
+                        <a href="{{ route('spotify-artists.create') }}" class="pull-right"><span class="icon icon-plus"></span> Add artist</a>
+                    
+                </div>
                 <div class="panel-body">
                 
                     @if(Session::has('flash_success'))
