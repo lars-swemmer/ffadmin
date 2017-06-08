@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\SpotifyArtist;
+use App\SpotifyAuth;
 use Illuminate\Http\Request;
+use SpotifyWebAPI;
 
 class SpotifyArtistController extends Controller
 {
@@ -44,7 +47,43 @@ class SpotifyArtistController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate(request(), [
+            'artist_id' => 'required'
+        ]);
+
+        $input = $request->all();
+
+        // Setup Spotify api
+        $spotifyAuth = SpotifyAuth::first();
+        $refreshToken = $spotifyAuth->refreshToken;
+        $session = new SpotifyWebAPI\Session(env('SPOTIFY_CLIENT_ID'), env('SPOTIFY_CLIENT_SECRET'), env('SPOTIFY_REDIRECT_URI'));
+        $session->refreshAccessToken($refreshToken);
+        $accessToken = $session->getAccessToken();
+        $api = new SpotifyWebAPI\SpotifyWebAPI();
+        $api->setAccessToken($accessToken);
+
+        // Retrieve Spotify artist data
+        try {
+            $artistData = $api->getArtist($input['artist_id']);
+        }
+        catch (\Exception $e) {
+            // return to create page with error message
+            \Session::flash('flash_message', 'Error retrieving artist, try again.');
+
+            return redirect('spotify-artists/create');
+        }
+
+        // Create SpotifyArtist record
+        $artist = SpotifyArtist::firstOrCreate([
+            'name' => $artistData->name,
+            'spotify_id' => $input['artist_id'],
+            'external_url' => $artistData->external_urls->spotify
+        ]);
+
+        // on succes redirect
+        \Session::flash('flash_success', 'Artist has been added.');
+
+        return redirect('spotify-artists');
     }
 
     /**
