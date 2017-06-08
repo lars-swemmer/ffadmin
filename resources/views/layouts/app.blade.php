@@ -42,7 +42,7 @@
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li {{ Request::is( 'spotify-artists') || Request::is( 'spotify-artists/*' ) ? 'class=active' : '' }}><a href="{{ route('spotify-artists.index') }}">Artists</a></li>
-                                <li {{ Request::is( 'spotify-playlists') || Request::is( 'spotify-playlists/*' ) ? 'class=active' : '' }}><a href="">Playlists</a></li>
+                                <li {{ Request::is( 'spotify-playlists') || Request::is( 'spotify-playlists/*' ) ? 'class=active' : '' }}><a href="{{ route('spotify-playlists.index') }}">Playlists</a></li>
                                 <li {{ Request::is( 'spotify-auth') || Request::is( 'spotify-auth/*' ) ? 'class=active' : '' }}><a href="{{ route('spotify-auth') }}">Authentication</a></li>
                             </ul>
                         </li>

@@ -24,3 +24,6 @@ Route::get('/spotify-callback', 'SpotifyAuthController@callback')->name('spotify
 
 // SpotifyArtist resource
 Route::resource('spotify-artists', 'SpotifyArtistController', ['except' => ['edit', 'update']]);
+
+// SpotifyPlaylist resource
+Route::resource('spotify-playlists', 'SpotifyPlaylistController', ['except' => ['edit', 'update']]);

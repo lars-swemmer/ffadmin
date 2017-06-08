@@ -6,8 +6,8 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Spotify Artists &middot; {{ Carbon\Carbon::today()->format('d M Y') }}
-                    <a href="{{ route('spotify-artists.create') }}" class="pull-right"><span class="icon icon-plus"></span> Add artist</a>
+                    Spotify Playlists &middot; {{ Carbon\Carbon::today()->format('d M Y') }}
+                    <a href="{{ route('spotify-playlists.create') }}" class="pull-right"><span class="icon icon-plus"></span> Add playlist</a>
                     
                 </div>
                 <div class="panel-body">
@@ -35,26 +35,10 @@
                         </thead>
                         <tbody>
 
-                        @if($spotifyPerformances->first())
-                            @foreach($spotifyPerformances as $key => $performance)
-                                <tr>
-                                    <td>{{ (($spotifyPerformances->currentPage() - 1 ) * $spotifyPerformances->perPage() ) + $loop->iteration }}</td>
-                                    <td>{{ $performance->spotifyArtist->name }}</td>
-                                    <td style="text-align: right">{{ $performance->popularity }}</td>
-                                    <td style="text-align: right">{{ $performance->new_popularity }}</td>
-                                    <td style="text-align: right">{{ number_format($performance->followers, 0, '', ',') }}</td>
-                                    <td style="text-align: right">{{ $performance->new_followers }}</td>
-                                </tr>
-                            @endforeach
-                        @else
-
-                        @endif
+                        	
 
                         </tbody>
                     </table>
-                    <div class="text-center">
-                        {{ $spotifyPerformances->links() }}
-                    </div>
 
                 </div>
             </div>
