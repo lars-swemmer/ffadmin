@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\SpotifyArtist;
+use App\SpotifyArtistPerf;
 use App\SpotifyAuth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use SpotifyWebAPI;
 
@@ -26,7 +28,9 @@ class SpotifyArtistController extends Controller
      */
     public function index()
     {
-        return view('spotifyartists.index');
+        $spotifyPerformances = SpotifyArtistPerf::whereDate('date', Carbon::today())->orderBy('popularity', 'desc')->orderBy('followers', 'desc')->paginate(25);
+
+        return view('spotifyartists.index', compact('spotifyPerformances'));
     }
 
     /**
@@ -79,6 +83,17 @@ class SpotifyArtistController extends Controller
             'spotify_id' => $input['artist_id'],
             'external_url' => $artistData->external_urls->spotify
         ]);
+
+        // create init performance
+        $performance = SpotifyArtistPerf::updateOrCreate(
+            ['date' => Carbon::today()->format('Y-m-d'), 'spotify_artist_id' => $artist->id],
+            [
+                'followers' => $artistData->followers->total,
+                'new_followers' => '0',
+                'popularity' => $artistData->popularity,
+                'new_popularity' => '0'
+            ]
+        );
 
         // on succes redirect
         \Session::flash('flash_success', 'Artist has been added.');

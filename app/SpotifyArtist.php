@@ -18,4 +18,9 @@ class SpotifyArtist extends Model
     	'popularity',
     	'external_url'
     ];
+
+    public function spotifyArtistPerf()
+    {
+        return $this->hasMany('App\SpotifyArtistPerf');
+    }
 }
