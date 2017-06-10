@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \App\Console\Commands\SaveSpotifyArtistPerf::class,
+        \App\Console\Commands\SaveSpotifyPlaylistPerf::class,
     ];
 
     /**
