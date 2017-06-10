@@ -27,15 +27,38 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th style="text-align: right">Popularity</th>
-                                <th style="text-align: right">Change</th>
+                                <th>Owner</th>
                                 <th style="text-align: right">Followers</th>
-                                <th style="text-align: right">New</th>
+                                <th style="text-align: right">New followers</th>
+                                <th style="text-align: right">Daily growth</th>
+                                <th style="text-align: right">Last updated</th>
                             </tr>
                         </thead>
                         <tbody>
 
-                        	
+                        	@if($spotifyPerformances->first())
+                                @foreach($spotifyPerformances as $key => $performance)
+                                    <tr>
+                                        <td>{{ $key+1 }}</td>
+                                        <td>{{ $performance->spotifyPlaylist->name }}</td>
+                                        <td>{{ $performance->spotifyPlaylist->user_id }}</td>
+                                        <td style="text-align: right">{{ number_format($performance->followers, 0, ',', ',') }}</td>
+                                        <td style="text-align: right">{{ number_format($performance->new_followers, 0, ',', ',') }}</td>
+                                        <td style="text-align: right">{{ number_format($performance->followers_daily_growth, 2, ',', ',') }}</td>
+                                        <td style="text-align: right">{{ Carbon\Carbon::parse($performance->last_updated)->diffForHumans() }}</td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td><small class="text-muted">No data yet</small></td>
+                                    <td><small class="text-muted">-</td>
+                                    <td><small class="text-muted">-</td>
+                                    <td style="text-align: right"><small class="text-muted">-</td>
+                                    <td style="text-align: right"><small class="text-muted">-</td>
+                                    <td style="text-align: right"><small class="text-muted">-</td>
+                                    <td style="text-align: right"><small class="text-muted">-</td>
+                                </tr>
+                            @endif
 
                         </tbody>
                     </table>

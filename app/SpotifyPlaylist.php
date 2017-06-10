@@ -17,4 +17,9 @@ class SpotifyPlaylist extends Model
     	'spotify_id',
     	'external_url'	
     ];
+
+    public function spotifyPlaylistPerf()
+    {
+        return $this->hasMany('App\SpotifyPlaylistPerf');
+    }
 }

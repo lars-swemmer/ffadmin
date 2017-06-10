@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\SpotifyAuth;
 use App\SpotifyPlaylist;
+use App\SpotifyPlaylistPerf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use SpotifyWebAPI;
 
@@ -26,7 +28,9 @@ class SpotifyPlaylistController extends Controller
      */
     public function index()
     {
-        return view('spotifyplaylists.index');
+        $spotifyPerformances = SpotifyPlaylistPerf::whereDate('date', Carbon::today())->orderBy('followers', 'desc')->get();
+
+        return view('spotifyplaylists.index', compact('spotifyPerformances'));
     }
 
     /**
@@ -82,6 +86,19 @@ class SpotifyPlaylistController extends Controller
             'spotify_id' => $input['spotify_id'],
             'external_url' => $playlistData->external_urls->spotify,
         ]);
+
+        $last_updated = $playlistData->tracks->items;
+
+        // create init performance
+        $performance = SpotifyPlaylistPerf::updateOrCreate(
+            ['date' => Carbon::today()->format('Y-m-d'), 'spotify_playlist_id' => $playlist->id],
+            [
+                'followers' => $playlistData->followers->total,
+                'new_followers' => '0',
+                'followers_daily_growth' => '0',
+                'last_updated' => Carbon::parse(max($last_updated)->added_at)
+            ]
+        );
 
         // on succes redirect
         \Session::flash('flash_success', 'Playlist has been added.');
